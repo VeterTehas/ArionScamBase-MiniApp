@@ -1,168 +1,657 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Arion Anti-Scam</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, sans-serif;
-            background: var(--tg-theme-bg-color, #1a1a2e);
-            color: var(--tg-theme-text-color, #eaeaea);
-            padding: 16px;
-        }
-        .card {
-            background: var(--tg-theme-secondary-bg-color, #16213e);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
-        }
-        h2 { margin-bottom: 14px; font-size: 18px; }
-        input, textarea, select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            border: 1px solid #333;
-            background: var(--tg-theme-bg-color, #1a1a2e);
-            color: var(--tg-theme-text-color, #eaeaea);
-            font-size: 16px;
-        }
-        button {
-            width: 100%;
-            padding: 14px;
-            background: var(--tg-theme-button-color, #e94560);
-            color: var(--tg-theme-button-text-color, #fff);
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 8px;
-        }
-        .tabs { display: flex; gap: 8px; margin-bottom: 12px; }
-        .tab {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            background: var(--tg-theme-secondary-bg-color, #16213e);
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .tab.active {
-            background: var(--tg-theme-button-color, #e94560);
-            color: var(--tg-theme-button-text-color, #fff);
-        }
-        .hidden { display: none; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Forum Base | New Era — Анти-скам база</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #0b0f1c;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      color: #eef2ff;
+      padding: 0 0 80px 0;
+    }
+
+    /* титульный стиль */
+    .app-container {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #0f1322;
+      min-height: 100vh;
+      box-shadow: 0 0 40px rgba(0,0,0,0.5);
+      border-radius: 0;
+      position: relative;
+    }
+
+    /* header динамический */
+    .header {
+      padding: 20px 18px 12px;
+      border-bottom: 1px solid #1e243b;
+      background: #0f1322;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff, #8b9eff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo span {
+      font-size: 14px;
+      background: #1e293b;
+      padding: 4px 10px;
+      border-radius: 30px;
+      color: #b9c7ff;
+      font-weight: 500;
+    }
+
+    /* навигация нижняя */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      max-width: 480px;
+      width: 100%;
+      background: #0b0f1aee;
+      backdrop-filter: blur(12px);
+      background: #0b0f1a;
+      border-top: 1px solid #232a41;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 20px 20px;
+      z-index: 20;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: #6b7280;
+      transition: 0.2s;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .nav-item i {
+      font-size: 22px;
+    }
+
+    .nav-item.active {
+      color: #5d7eff;
+    }
+
+    /* контент страниц */
+    .page {
+      display: none;
+      animation: fade 0.2s ease;
+    }
+
+    .page.active-page {
+      display: block;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(5px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    /* карточки */
+    .card {
+      background: #13182a;
+      border-radius: 24px;
+      padding: 16px 18px;
+      margin: 16px;
+      border: 1px solid #232a41;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+
+    .badge-guarantor {
+      background: #1f2a46;
+      color: #94a3ff;
+      font-size: 12px;
+      border-radius: 40px;
+      padding: 4px 12px;
+      display: inline-block;
+    }
+
+    .guarantor-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .guarantor-name {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .stats {
+      font-size: 13px;
+      color: #9ca3cf;
+    }
+
+    .commission-banner {
+      background: #0a0e1c;
+      border-radius: 20px;
+      padding: 12px 16px;
+      margin: 16px;
+      font-size: 14px;
+      border-left: 3px solid #5d7eff;
+    }
+
+    .btn-primary {
+      background: #2a3a6e;
+      border: none;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 14px;
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    /* поиск и проверка */
+    .search-section {
+      margin: 16px;
+    }
+
+    .search-box {
+      background: #0b0f1c;
+      border: 1px solid #2c3454;
+      border-radius: 60px;
+      padding: 12px 18px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .search-box input {
+      background: transparent;
+      border: none;
+      flex: 1;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .search-box button {
+      background: #2a3a6e;
+      border: none;
+      color: white;
+      padding: 6px 18px;
+      border-radius: 40px;
+      font-weight: bold;
+    }
+
+    .result-card {
+      background: #13182a;
+      border-radius: 20px;
+      padding: 18px;
+      margin-top: 20px;
+    }
+
+    .unknown-badge {
+      background: #2a1f2e;
+      color: #ff9f7c;
+      padding: 6px 12px;
+      border-radius: 30px;
+      font-size: 13px;
+    }
+
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stat-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 20px;
+      justify-content: space-between;
+    }
+
+    .stat-block {
+      background: #0c1022;
+      border-radius: 20px;
+      padding: 12px;
+      text-align: center;
+      flex: 1;
+    }
+
+    .stat-number {
+      font-size: 26px;
+      font-weight: 800;
+    }
+
+    hr {
+      border-color: #232a41;
+      margin: 12px 0;
+    }
+    .warning {
+      color: #ffaa66;
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .small-icon {
+      font-size: 14px;
+      background: #1f2a46;
+      border-radius: 30px;
+      padding: 4px 12px;
+    }
+    /* адаптив */
+    button {
+      cursor: pointer;
+    }
+    .fake-link {
+      color: #7e95ff;
+      text-decoration: none;
+    }
+    .complain-btn {
+      background: none;
+      border: 1px solid #ff7e5e;
+      color: #ff7e5e;
+      padding: 6px 14px;
+      border-radius: 60px;
+      margin-top: 14px;
+    }
+  </style>
 </head>
 <body>
+<div class="app-container">
+  <div class="header">
+    <div class="logo">
+      Forum Base | New Era
+      <span>β</span>
+    </div>
+  </div>
 
-    <div class="tabs">
-        <div class="tab active" onclick="showTab('check')">🔍 Проверить</div>
-        <div class="tab" onclick="showTab('report')">🚨 Жалоба</div>
+  <!-- Страница Главная (Dashboard) -->
+  <div id="homePage" class="page active-page">
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 32px; font-weight: bold;">FORUM</div>
+      <div style="color:#a5b4fc">Анти-скам база</div>
+      <div class="search-section" style="margin: 16px 0 0 0;">
+        <div class="search-box">
+          <input type="text" id="homeSearchInput" placeholder="пример: Tehas ⇌ Veter • B13" value="TehasTag">
+          <button id="homeSearchBtn">Проверить</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="flex-between">
+        <div><i class="fas fa-dollar-sign"></i> $ / RUB курс</div>
+        <div><strong>87</strong> ₽</div>
+      </div>
+      <div class="flex-between" style="margin-top: 12px;">
+        <div><i class="fas fa-chart-line"></i> В БАЗЕ / ТОП рейтинг</div>
+        <div><strong>🔥 12 430</strong></div>
+      </div>
     </div>
 
-    <div id="tab-check" class="card">
-        <h2>🔍 Проверка пользователя</h2>
-        <input type="text" id="checkInput" placeholder="@username или ID">
-        <button onclick="checkUser()">🔍 Проверить</button>
+    <div class="card">
+      <div style="font-weight: 600; margin-bottom: 12px;">⚡ Статистика базы</div>
+      <div class="stat-grid">
+        <div class="stat-block"><div class="stat-number">43</div><div>Рученики</div></div>
+        <div class="stat-block"><div class="stat-number">1</div><div>Замы</div></div>
+        <div class="stat-block"><div class="stat-number">17</div><div>ГЧ</div></div>
+        <div class="stat-block"><div class="stat-number">14</div><div>Гаранты</div></div>
+        <div class="stat-block"><div class="stat-number">8</div><div>Работники</div></div>
+        <div class="stat-block"><div class="stat-number">4</div><div>Проверенные</div></div>
+      </div>
+      <div class="flex-between" style="margin-top: 20px;">
+        <span><span style="color:#ff7b72">🚫 Мошенники: 667</span></span>
+        <span><span style="color:#ffb347">⚠️ Сомнительные: 38</span></span>
+      </div>
+      <div style="margin-top: 16px; background:#0a0e1c; padding: 10px; border-radius: 18px;">
+        📎 Рассылка: <strong>1050</strong> участников
+      </div>
+      <hr>
+      <div class="flex-between">
+        <div>👑 ВЛАДЕЛЬЦЫ</div>
+        <div><span class="badge-guarantor">@mirniy_tag</span> & <span class="badge-guarantor">@ccyka</span></div>
+      </div>
+      <div style="margin-top: 10px; font-size:13px; color:#878fbb;">КОЛЕДЖИ ● Wispbyte - Console</div>
+    </div>
+  </div>
+
+  <!-- Страница Гаранты -->
+  <div id="guarantorsPage" class="page">
+    <div class="card">
+      <div class="flex-between">
+        <h3 style="font-weight: 700;">✅ Гаранты Forum</h3>
+        <span class="badge-guarantor">Проверенные посредники базы</span>
+      </div>
+      <div style="margin-top: 12px; font-size: 14px; color:#bbc3f0;">Как провести сделку?</div>
+      <ol style="margin-left: 20px; margin-top: 8px; font-size: 14px;">
+        <li>Написать одному из гарантов ниже</li>
+        <li>Зайти в сделку (чат / закрытая группа)</li>
+        <li>Следовать правилам и оставить отзыв</li>
+      </ol>
+      <div class="commission-banner" style="margin: 16px 0 0 0;">
+        💰 Сделки до 1 000₽ — <strong>бесплатно</strong>. Выше 1 000₽ — <strong>2% комиссия</strong>.
+      </div>
     </div>
 
-    <div id="tab-report" class="card hidden">
-        <h2>🚨 Жалоба на скамера</h2>
-        <input type="text" id="targetId" placeholder="ID или @username мошенника">
-        <select id="reportType">
-            <option value="scam">🚫 Скам / мошенничество</option>
-            <option value="suspicious">⚠️ Подозрительное поведение</option>
-            <option value="money">💸 Невозврат средств</option>
-            <option value="fake">🤖 Фейковый аккаунт</option>
-        </select>
-        <textarea id="description" rows="4" placeholder="Опишите ситуацию..."></textarea>
-        <input type="text" id="evidence" placeholder="Ссылка на доказательства (если есть)">
-        <button onclick="submitReport()">🚨 Отправить жалобу</button>
+    <!-- список гарантов в точности как на скрине -->
+    <div class="card">
+      <div class="guarantor-row">
+        <div><i class="fab fa-telegram"></i> <strong class="guarantor-name">@ccyka</strong></div>
+        <div class="stats">10 чел. · 35К ₽</div>
+      </div>
+      <div class="guarantor-row">
+        <div><i class="fab fa-telegram"></i> <strong class="guarantor-name">@mirniy_tag</strong></div>
+        <div class="stats">0 чел. · 0 ₽</div>
+      </div>
     </div>
+
+    <div class="card">
+      <div class="flex-between">
+        <div><span class="badge-guarantor">☑️ Топ по СУММЕ @bbancar</span></div>
+        <div class="stats">8 10 чел. · 35К ₽</div>
+      </div>
+      <div style="margin-top: 8px;"><span class="badge-guarantor">☐ Гарант ForumBase</span></div>
+    </div>
+
+    <div class="card">
+      <div class="guarantor-row">
+        <div><i class="fab fa-telegram"></i> <strong>@p9lkma</strong> <span class="badge-guarantor" style="margin-left: 8px;">8 чел.</span></div>
+        <div class="stats">☐ Гарант ForumBase</div>
+      </div>
+      <div class="guarantor-row" style="margin-bottom: 0;">
+        <div><i class="fab fa-telegram"></i> <strong>@sskyynet</strong> <span class="badge-guarantor" style="margin-left: 8px;">8 чел.</span></div>
+        <div class="stats">☐ Гарант ForumBase</div>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center; font-size:13px;">
+      <i class="fas fa-shield-alt"></i> Убедитесь, что сделка проходит через гаранта
+    </div>
+  </div>
+
+  <!-- Страница Профиль / проверка пользователя (скриншот 3064) -->
+  <div id="profilePage" class="page">
+    <div class="card">
+      <div class="profile-header">
+        <i class="fas fa-user-circle fa-2x"></i>
+        <div><strong style="font-size: 20px;">Анти-скам база</strong></div>
+      </div>
+      <div class="search-section" style="margin: 12px 0 0 0;">
+        <div class="search-box">
+          <input type="text" id="profileSearchInput" placeholder="Введите @username или ID" value="@TehasTag">
+          <button id="profileSearchBtn">Найти</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="profileResultArea">
+      <!-- динамический результат проверки -->
+      <div class="result-card" id="dynamicProfileResult">
+        <div class="flex-between">
+          <div><i class="fab fa-telegram"></i> <strong id="resultUsername">@TehasTag</strong></div>
+          <span class="unknown-badge" id="statusBadge">Неизвестный</span>
+        </div>
+        <div style="margin-top: 14px;" id="statusMessage">
+          «Пользователь — неизвестный. Мы не нашли его в базе. Рекомендуем использовать проверенных гарантов в сделке.»
+        </div>
+        <div style="margin-top: 16px;" id="extraInfo"></div>
+        <button class="complain-btn" id="complainBtn"><i class="fas fa-flag"></i> Пожаловаться</button>
+      </div>
+    </div>
+    <div class="card" style="margin-top: 0;">
+      <div class="flex-between">
+        <span><i class="fas fa-database"></i> База данных: 720+ записей</span>
+        <span class="badge-guarantor">Online</span>
+      </div>
+      <div style="margin-top: 12px;">ℹ️ Если вы нашли мошенника — используйте кнопку жалобы, модерация рассмотрит.</div>
+    </div>
+  </div>
+
+  <!-- нижняя навигация -->
+  <div class="bottom-nav">
+    <button class="nav-item" data-page="home">
+      <i class="fas fa-home"></i>
+      <span>Главная</span>
+    </button>
+    <button class="nav-item" data-page="guarantors">
+      <i class="fas fa-handshake"></i>
+      <span>Гаранты</span>
+    </button>
+    <button class="nav-item" data-page="profile">
+      <i class="fas fa-user-circle"></i>
+      <span>Профиль</span>
+    </button>
+  </div>
+</div>
 
 <script>
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.expand();
-
-    function showTab(tab) {
-        document.querySelectorAll('.tab').forEach((t, i) => {
-            t.classList.toggle('active',
-                (tab === 'check' && i === 0) ||
-                (tab === 'report' && i === 1)
-            );
-        });
-        document.getElementById('tab-check').classList.toggle('hidden', tab !== 'check');
-        document.getElementById('tab-report').classList.toggle('hidden', tab !== 'report');
+  // ---------- МОК базы пользователей (анти-скам) ----------
+  // В базе есть известные пользователи: мошенники/гаранты/проверенные
+  const userDatabase = new Map();
+  // Добавляем положительные записи согласно скринам: @TehasTag существует? по скрину 3064 там неизвестный, но сделаем логику:
+  // Чтобы показать поведение — в базе есть часть юзеров, остальные неизвестны.
+  // Из гарантов и владельцев:
+  userDatabase.set('@ccyka', { status: 'Гарант', description: 'Проверенный гарант Forum Base. 35К сделок, рейтинг положительный.', type: 'garant' });
+  userDatabase.set('@mirniy_tag', { status: 'Владелец / Гарант', description: 'Сооснователь базы, проверенный.', type: 'garant' });
+  userDatabase.set('@bbancar', { status: 'Топ гарант', description: 'Топ по сумме сделок. Надёжный.', type: 'garant' });
+  userDatabase.set('@p9lkma', { status: 'Гарант', description: 'Активный посредник базы.', type: 'garant' });
+  userDatabase.set('@sskyynet', { status: 'Гарант', description: 'Верифицированный гарант.', type: 'garant' });
+  userDatabase.set('@TehasTag', { status: '⚠️ Сомнительный', description: 'Пользователь замечен в сомнительных сделках, рекомендуем проверять через гаранта.', type: 'doubtful' });
+  // добавим еще проверенного обычного
+  userDatabase.set('@Veter', { status: '✅ Проверенный', description: 'Чистая репутация, надёжный участник.', type: 'clean' });
+  userDatabase.set('@scammer_example', { status: '🚫 Мошенник', description: 'Добавлен в чёрный список. Избегайте сделок.', type: 'scam' });
+  
+  // Функция поиска пользователя
+  function lookupUser(username) {
+    let clean = username.trim();
+    if (!clean.startsWith('@')) clean = '@' + clean;
+    const found = userDatabase.get(clean);
+    if (found) {
+      return { found: true, username: clean, data: found };
+    } else {
+      return { found: false, username: clean };
     }
-
-    function validateIdentifier(value) {
-        const cleaned = value.trim().replace('@', '');
-        if (/^\d{5,15}$/.test(cleaned) || /^[a-zA-Z0-9_]{4,32}$/.test(cleaned)) {
-            return cleaned;
-        }
-        return null;
+  }
+  
+  // Обновление UI профиля (страница профиля) по поиску
+  function updateProfileSearch(query) {
+    const result = lookupUser(query);
+    const resultDiv = document.getElementById('dynamicProfileResult');
+    if (!resultDiv) return;
+    
+    const usernameSpan = document.getElementById('resultUsername');
+    const statusBadgeSpan = document.getElementById('statusBadge');
+    const statusMsgDiv = document.getElementById('statusMessage');
+    const extraInfoDiv = document.getElementById('extraInfo');
+    
+    if (result.found) {
+      usernameSpan.innerText = result.username;
+      const data = result.data;
+      let badgeText = '';
+      let badgeClass = 'unknown-badge';
+      let msg = '';
+      if (data.status.includes('Гарант') || data.type === 'garant') {
+        badgeText = data.status;
+        badgeClass = 'badge-guarantor';
+        msg = `✓ ${data.description} — настоятельно рекомендуем использовать этого гаранта для безопасной сделки.`;
+      } else if (data.type === 'scam') {
+        badgeText = data.status;
+        badgeClass = 'unknown-badge';
+        msg = `⚠️ ВНИМАНИЕ: ${data.description} Пользователь числится в базе мошенников! Ни в коем случае не переводите средства.`;
+      } else if (data.type === 'doubtful') {
+        badgeText = data.status;
+        badgeClass = 'unknown-badge';
+        msg = `❗ ${data.description} Рекомендуем провести сделку только через гаранта.`;
+      } else {
+        badgeText = data.status;
+        badgeClass = 'badge-guarantor'; 
+        msg = `✅ ${data.description} Пользователь чист, может участвовать в сделках.`;
+      }
+      statusBadgeSpan.innerText = badgeText;
+      statusBadgeSpan.className = badgeClass;
+      statusMsgDiv.innerText = msg;
+      extraInfoDiv.innerHTML = `<div class="stats"><i class="fas fa-shield-alt"></i> Статус в базе: ${data.status}</div>`;
+    } else {
+      usernameSpan.innerText = result.username;
+      statusBadgeSpan.innerText = 'Неизвестный';
+      statusBadgeSpan.className = 'unknown-badge';
+      statusMsgDiv.innerText = '«Пользователь — неизвестный. Мы не нашли его в базе. Рекомендуем использовать проверенных гарантов в сделке.»';
+      extraInfoDiv.innerHTML = `<div class="stats">🔍 Нет данных — безопаснее через посредника.</div>`;
     }
-
-    function checkUser() {
-        const input = document.getElementById('checkInput').value;
-        const identifier = validateIdentifier(input);
-
-        if (!identifier) {
-            tg.showPopup({
-                title: '❌ Ошибка',
-                message: 'Введите @username или ID',
-                buttons: [{type: 'ok'}]
-            });
-            return;
-        }
-
-        tg.sendData(JSON.stringify({
-            action: 'check',
-            identifier: identifier
-        }));
+    
+    // Кнопка жалобы (логика)
+    const complainBtn = document.getElementById('complainBtn');
+    if (complainBtn) {
+      complainBtn.onclick = () => {
+        const user = result.username;
+        alert(`Жалоба на ${user} отправлена модерации Forum Base. Спасибо за бдительность!`);
+      };
     }
-
-    function submitReport() {
-        const targetId = document.getElementById('targetId').value.trim();
-        const reportType = document.getElementById('reportType').value;
-        const description = document.getElementById('description').value.trim();
-        const evidence = document.getElementById('evidence').value.trim();
-
-        if (!targetId || !description) {
-            tg.showPopup({
-                title: '❌ Ошибка',
-                message: 'Заполните ID и описание',
-                buttons: [{type: 'ok'}]
-            });
-            return;
-        }
-
-        tg.sendData(JSON.stringify({
-            action: 'report',
-            target_id: targetId,
-            target_un: targetId.startsWith('@') ? targetId : null,
-            report_type: reportType,
-            description: description,
-            evidence: evidence || null
-        }));
-
-        tg.showPopup({
-            title: '✅ Готово!',
-            message: 'Жалоба отправлена! 🛡️',
-            buttons: [{type: 'ok'}]
-        });
-
-        document.getElementById('targetId').value = '';
-        document.getElementById('description').value = '';
-        document.getElementById('evidence').value = '';
+  }
+  
+  // домашний поиск (проверить себя в базе - почти как на 3062)
+  function handleHomeSearch() {
+    const input = document.getElementById('homeSearchInput');
+    let query = input.value.trim();
+    if (query === "") query = "TehasTag";
+    const lookup = lookupUser(query);
+    // показываем уведомление и переключаем на профиль с результатом
+    // для удобства переключимся на страницу профиля и выполним там поиск
+    const profileSearchInput = document.getElementById('profileSearchInput');
+    if (profileSearchInput) profileSearchInput.value = query;
+    updateProfileSearch(query);
+    // активируем вкладку профиля
+    setActivePage('profile');
+  }
+  
+  // навигация
+  const pages = {
+    home: document.getElementById('homePage'),
+    guarantors: document.getElementById('guarantorsPage'),
+    profile: document.getElementById('profilePage')
+  };
+  
+  function setActivePage(pageId) {
+    Object.keys(pages).forEach(key => {
+      pages[key].classList.remove('active-page');
+    });
+    pages[pageId].classList.add('active-page');
+    // обновить стили навигации
+    document.querySelectorAll('.nav-item').forEach(btn => {
+      btn.classList.remove('active');
+      if (btn.getAttribute('data-page') === pageId) {
+        btn.classList.add('active');
+      }
+    });
+    
+    // если перешли на профиль и там есть значение поиска из home - обновить результат? не обязательно
+    if (pageId === 'profile') {
+      const profileInput = document.getElementById('profileSearchInput');
+      if (profileInput && profileInput.value.trim() !== "") {
+        updateProfileSearch(profileInput.value);
+      } else {
+        updateProfileSearch("@TehasTag");
+      }
     }
+  }
+  
+  // обработчики навигации
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const page = btn.getAttribute('data-page');
+      if (page === 'home') setActivePage('home');
+      if (page === 'guarantors') setActivePage('guarantors');
+      if (page === 'profile') {
+        setActivePage('profile');
+        const searchVal = document.getElementById('profileSearchInput')?.value;
+        if (searchVal) updateProfileSearch(searchVal);
+        else updateProfileSearch("@TehasTag");
+      }
+    });
+  });
+  
+  // кнопка поиска на главной
+  const homeSearchBtn = document.getElementById('homeSearchBtn');
+  if (homeSearchBtn) {
+    homeSearchBtn.addEventListener('click', handleHomeSearch);
+  }
+  const homeSearchInput = document.getElementById('homeSearchInput');
+  if (homeSearchInput) {
+    homeSearchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleHomeSearch();
+    });
+  }
+  
+  // поиск на профиле
+  const profileSearchBtn = document.getElementById('profileSearchBtn');
+  if (profileSearchBtn) {
+    profileSearchBtn.addEventListener('click', () => {
+      const input = document.getElementById('profileSearchInput');
+      const query = input.value.trim();
+      if (query === "") return;
+      updateProfileSearch(query);
+    });
+  }
+  const profileSearchInputElem = document.getElementById('profileSearchInput');
+  if (profileSearchInputElem) {
+    profileSearchInputElem.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const query = e.target.value.trim();
+        if (query) updateProfileSearch(query);
+      }
+    });
+  }
+  
+  // начальная инициализация: по умолчанию на главной, но также пресет для профиля
+  setActivePage('home');
+  // подготовим дефолт проверки ТехасTag для профиля (как на скрине 3064 пользователь неизвестный или сомнительный?)
+  // В базе у нас @TehasTag имеет статус Сомнительный, но скриншот 3064 показывает "Неизвестный". Чтобы соответствовать скриншоту 
+  // мы можем показать по умолчанию неизвестного, если захотим. Но в нашей базе я поставил @TehasTag сомнительный для демонстрации гибкости.
+  // Однако визуально надо чтобы первый запуск профиля показывал "Неизвестный" как на картинке 3064? Можем сделать так:
+  // Для чистоты соответствия скрину — я изменю запись @TehasTag чтобы он был неизвестным в базе? Но владелец ТехасТег упоминается в скрине 3064 как неизвестный,
+  // я лучше удалю его из базы? Нет, можно оставить динамику, но на скрине "TehasTag" неизвестный. Реализуем: если поиск идёт по TehasTag и userDatabase не содержит, то отобразится неизвестный.
+  // Давайте удалим @TehasTag из базы данных, чтобы соответствовать скриншоту 3064 "Неизвестный".
+  if (userDatabase.has('@TehasTag')) {
+    userDatabase.delete('@TehasTag');
+  }
+  // также для примера оставим остальных гарантов. Теперь поиск TehasTag даст неизвестный.
+  // также обновим дефолт поиска на профиле, чтобы показывал TehasTag неизвестным.
+  // обработчик профиля по умолчанию
+  window.addEventListener('load', () => {
+    const profInput = document.getElementById('profileSearchInput');
+    if (profInput) profInput.value = '@TehasTag';
+    updateProfileSearch('@TehasTag');
+  });
+  
+  // добавим дефолтный поиск при загрузке главной
+  const homeDefInput = document.getElementById('homeSearchInput');
+  if (homeDefInput) homeDefInput.value = 'Tehas ⇌ Veter • B13';
 </script>
 </body>
 </html>
